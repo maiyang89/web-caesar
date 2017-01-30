@@ -24,11 +24,18 @@ page_header = """
     <title>Web Caesar</title>
 </head>
 <body>
-    <h2>Enter some text to ROT13:</h2>
+    <h1>Web Caesar</h1>
 """
 
 form = """
         <form method="post">
+            <label>Rotate By:
+                <input type="text" name="rotation">
+            </label>
+            <br>
+            <p>
+                Type a message:
+            </p>
             <textarea name="text" style="height: 100px; width: 400px;"></textarea>
             <br>
             <input type="submit">
@@ -47,10 +54,18 @@ class MainHandler(webapp2.RequestHandler):
 
     def post(self):
         text = self.request.get("text")
-        userentry = caesar.encrypt(text,13)
+        rotation = int(self.request.get("rotation"))
+        userentry = caesar.encrypt(text,rotation)
 
         updated_form = """
             <form method="post">
+                <label>Rotate By:
+                    <input type="text" name="rotation">
+                </label>
+                <br>
+                <p>
+                    Type a message:
+                </p>
                 <textarea name="text" style="height: 100px; width: 400px;">""" + cgi.escape(userentry) + """</textarea>
                 <br>
                 <input type="submit">
